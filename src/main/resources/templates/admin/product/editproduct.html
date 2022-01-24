@@ -46,7 +46,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Thêm sản phẩm</h1>
+                        <h1 class="m-0 text-dark">Cập nhật sản phẩm</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -97,7 +97,7 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            <button onclick="return confirm('Do you really want to submit the form?');" type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
                         </div>
                     </form>
                 </div>
@@ -125,28 +125,57 @@
 <!-- jQuery UI 1.11.4 -->
 <script th:src="@{https://code.jquery.com/ui/1.12.1/jquery-ui.min.js}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
+<script th:inline="javascript">
     $.widget.bridge('uibutton', $.ui.button)
 
+    var url_string = window.location.href; //window.location.href
+    var url = new URL(url_string);
+    var id = url.searchParams.get("id");
+
     $(document).ready(function (){
+        var product = [[${product}]]
+        var productDetails = [[${productDetails}]]
+        console.log(productDetails)
+        console.log(product)
         $.ajax({
             type:'GET',
             url:"http://localhost:8080/category-api",
             success: function (response){
                 console.log(response);
-                var category = $("#categoryItem");
+                let category = $("#categoryItem")
                 let i = 0
                 response.forEach(data => {
                     i++
-                    category.append(" <option value=" + i + " > " + data.name + " </option>");
+                    if (i === product.categoryId){
+                        category.append(" <option value=" + i + " selected> " + data.name + " </option>");
+                    } else {
+                        category.append(" <option value=" + i + "> " + data.name + " </option>");
+                    }
                 });
+                $("#name").attr('value', product.name)
+                $("#price").attr('value', product.price)
+                $("#description").attr('value', product.description)
+                $("#description").attr('placeholder', product.description)
+                $("#logo").attr('value', product.logo)
+                let lengthOfProductDetails = productDetails.length
+                for (let n = 1; n <= lengthOfProductDetails; n++){
+                    $(".productsContainer").append('<div class="form-group">' + '<label>Color</label>'
+                        + ' <select id="color' + n + '" class="form-control"> <option value="Red">Red</option> <option value="Blue">Blue</option> </select> '
+                        + ' <label>Size</label> <select id="size'+n+'" class="form-control"> <option value="S">S</option> <option value="M">M</option> <option value="L">L</option> </select>'
+                        + '<label>Số lượng</label><input type="number" id="numberItem'+n+ '">'
+                        + '<label>Hình ảnh sản phẩm</label><input type="file" id="image' + n + '">');
+                    // $("#color"+n).attr('value', "Blue")
+                    $("#color"+n+ " option[value='" + productDetails[n-1].color + "']").attr("selected","selected");
+                    $("#size"+n+ " option[value='" + productDetails[n-1].size + "']").attr("selected","selected");
+                    $("#numberItem"+n).attr('value', productDetails[n-1].numberItemsInStore)
+                }
             },
             error: function (error){
                 console.log(error);
             }
         })
 
-        var n = 1
+        var n = productDetails.length + 1 //3
         createDOM = function () {
             $(".productsContainer").append('<div class="form-group">' + '<label>Color</label>'
                 + ' <select id="color' + n + '" class="form-control"> <option value="Red">Red</option> <option value="Blue">Blue</option> </select> '
@@ -177,14 +206,13 @@
                     }
                     product.details.push(productDetail)
                 }
-                // console.log(product)
+                console.log(product)
                 $.ajax({
-                    url: 'http://localhost:8080/admin-product/add',
+                    url: 'http://localhost:8080/admin-product/update?id='+id,
                     type: 'post',
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function () {
-
                     },
                     data: JSON.stringify(product)
                 });

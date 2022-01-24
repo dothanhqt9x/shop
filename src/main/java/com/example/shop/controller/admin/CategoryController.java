@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin-category")
@@ -24,11 +23,6 @@ public class CategoryController {
 
     public CategoryController(ICategoryService iCategoryService) {
         this.iCategoryService = iCategoryService;
-    }
-
-    @GetMapping()
-    public ResponseEntity<List<CategoryResponse>> getList(){
-        return ResponseEntity.ok(iCategoryService.getList());
     }
 
     @GetMapping("list")
@@ -42,7 +36,7 @@ public class CategoryController {
         return "admin/category/addcategory";
     }
     @PostMapping("add")
-    public void addCategory(@RequestParam String name, Model model, HttpServletResponse response) throws IOException {
+    public void addCategory(@RequestParam String name, HttpServletResponse response) throws IOException {
         iCategoryService.insertCategory(name);
         response.sendRedirect("list");
     }

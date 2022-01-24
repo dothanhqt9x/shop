@@ -5,10 +5,10 @@ import com.example.shop.service.IProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -37,9 +37,21 @@ public class ProductController {
     public String viewAdd(){
         return "admin/product/addproduct";
     }
-
     @PostMapping("add")
-    public String view(){
-        return "admin/product/addproduct";
+    public void addProduct(@RequestBody Object productData, HttpServletResponse response) throws IOException {
+        iProductService.insertProduct(productData);
+        response.sendRedirect("list");
+    }
+
+    @GetMapping("update")
+    public String viewEdit(Model model, @RequestParam Integer id){
+        model.addAttribute("product", iProductService.getProductById(id));
+        model.addAttribute("productDetails", iProductService.getProductDetailsById(id));
+        return "admin/product/editproduct";
+    }
+    @PostMapping("update")
+    public void editProduct(@RequestParam Integer id, @RequestBody Object productData, HttpServletResponse response ) throws IOException {
+        iProductService.insertProductById(id, productData);
+        response.sendRedirect("list");
     }
 }

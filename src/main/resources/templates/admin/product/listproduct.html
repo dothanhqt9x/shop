@@ -87,8 +87,8 @@
                                 <td th:text="${data.price}"></td>
                                 <td th:text="${data.nameCategory}"></td>
                                 <td>
-                                    <a href="#" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</a>
-                                    <a href="#" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</a>
+                                    <a th:href="@{/admin-product/update(id=${data.id})}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</a>
+                                    <a th:href="@{/admin-product/delete(id=${data.id})}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</a>
                                 </td>
                             </tr>
                         </table>
