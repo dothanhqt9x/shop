@@ -92,6 +92,7 @@ public class ProductServiceImpl implements IProductService {
         String description  = jsonObjectPruductData.get("description").getAsString();
         Integer categoryId = jsonObjectPruductData.get("category").getAsInt();
         productRepository.updateProduct(name, logo, price, description,categoryId, id);
+        productDetailsRepository.deleteProductDetailsEntitiesByProductId(id);
         JsonArray details = jsonObjectPruductData.get("details").getAsJsonArray();
         for (JsonElement detail: details){
             System.out.println(detail);
@@ -99,7 +100,13 @@ public class ProductServiceImpl implements IProductService {
             String size = detail.getAsJsonObject().get("size").getAsString();
             Integer quanlity = detail.getAsJsonObject().get("quanlity").getAsInt();
             String image = detail.getAsJsonObject().get("image").getAsString();
-            productDetailsRepository.updateProductDetails(size, color, image, quanlity, id);
+            productDetailsRepository.insertProductDetails(size, color, image, quanlity, id);
         }
+    }
+
+    @Override
+    public void deleteProductAndProductDetailsById(Integer id) {
+        productRepository.deleteById(id);
+        productDetailsRepository.deleteProductDetailsEntitiesByProductId(id);
     }
 }

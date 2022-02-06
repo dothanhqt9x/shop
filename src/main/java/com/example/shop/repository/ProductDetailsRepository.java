@@ -26,5 +26,13 @@ public interface ProductDetailsRepository extends JpaRepository<ProductDetailsEn
     @Transactional
     void updateProductDetails(@Param("size") String size, @Param("color") String color, @Param("image") String image, @Param("number_items_in_store") Integer number_items_in_store, @Param("product_id") Integer product_id);
 
+    @Modifying
+    @Query(
+            value = "delete from productdetails where product_id=:product_id",
+            nativeQuery = true
+    )
+    @Transactional
+    void deleteProductDetailsEntitiesByProductId(@Param("product_id") Integer id);
+
     List<ProductDetailsEntity> getProductDetailsEntitiesByProductId(Integer id);
 }

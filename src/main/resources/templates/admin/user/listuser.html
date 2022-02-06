@@ -46,12 +46,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Quản lý bài đăng</h1>
+                        <h1 class="m-0 text-dark">Quản lý thành viên</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="index">Home</a></li>
-                            <li class="breadcrumb-item active">Quản lý bài đăng</li>
+                            <li class="breadcrumb-item active">Quản lý thành viên</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -64,11 +64,11 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Danh sách bài đăng</h3>
+                        <h3 class="card-title">Danh sách thành viên</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <a href="#" class="btn btn-primary">Thêm User</a>
+                        <a href="/admin-user/add" class="btn btn-primary">Thêm User</a>
                         <table class="table table-bordered" style="margin-top: 20px;">
                             <tr>
                                 <th style="width: 10px">STT</th>
@@ -81,25 +81,25 @@
                             </tr>
                             <tr th:each="data : ${user}">
                                 <td th:text="${data.id}"></td>
+                                <td th:text="${data.email}"></td>
                                 <td th:text="${data.fullName}"></td>
-                                <td th:text="${data.fullName}"></td>
-                                <td th:text="${data.fullName}"></td>
-                                <td th:text="${data.fullName}"></td>
-                                <td th:text="${data.fullName}"></td>
+                                <td th:text="${data.address}"></td>
+                                <td th:text="${data.phoneNumber}"></td>
+                                <td th:text="${data.roleId}"></td>
                                 <td>
-                                    <a href="#" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</a>
-                                    <a href="#" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</a>
+                                    <a th:href="@{/admin-user/update(id=${data.id})}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</a>
+                                    <a onclick="return confirm('Do you really want to submit the form?');" th:href="@{/admin-user/delete(id=${data.id})}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</a>
                                 </td>
                         </table>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer clearfix">
                         <ul class="pagination pagination-sm m-0 float-right">
-                            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="#" id="left">&laquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="/admin-user/list?page=0">1</a></li>
+                            <li class="page-item"><a class="page-link" href="/admin-user/list?page=1">2</a></li>
+                            <li class="page-item"><a class="page-link" href="/admin-user/list?page=2">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#" id="right">&raquo;</a></li>
                         </ul>
                     </div>
                 </div>
@@ -127,6 +127,24 @@
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
+
+    var url_string = window.location.href; //window.location.href
+    var url = new URL(url_string);
+    var page = url.searchParams.get("page");
+
+    $(document).ready(function () {
+        $("#left").click(function (){
+            let pageLeft = page - 1
+            $("#left").attr('href', "/admin-user/list?page="+pageLeft)
+        })
+
+        $("#right").click(function (){
+            let pageRight = parseInt(page) + 1
+            $("#right").attr('href', "/admin-user/list?page="+pageRight)
+        })
+    })
+
+
 </script>
 <!-- Bootstrap 4 -->
 <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>

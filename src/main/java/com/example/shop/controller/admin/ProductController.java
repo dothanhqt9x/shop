@@ -54,4 +54,10 @@ public class ProductController {
         iProductService.insertProductById(id, productData);
         response.sendRedirect("list");
     }
+
+    @GetMapping("delete")
+    public void deleteProduct(@RequestParam Integer id, HttpServletResponse response) throws IOException {
+        iProductService.deleteProductAndProductDetailsById(id);
+        response.sendRedirect("list");
+    }
 }

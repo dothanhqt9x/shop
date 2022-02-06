@@ -12,4 +12,5 @@ public interface IProductService {
     ProductEntity getProductById(Integer id);
     List<ProductDetailsEntity> getProductDetailsById(Integer id);
     void insertProductById(Integer id,Object productData);
+    void deleteProductAndProductDetailsById(Integer id);
 }
