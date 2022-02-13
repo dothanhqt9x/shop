@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
 <nav th:fragment="header">
     <!--header -->
     <div class="colorlib-loader"></div>
@@ -11,18 +18,37 @@
                         </div>
                         <div class="col-xs-10 text-right menu-1">
                             <ul>
-                                <li class="active"><a href="index.html">Trang chủ</a></li>
+                                <li class="active"><a th:href="@{/homepage}">Trang chủ</a></li>
                                 <li class="has-dropdown">
-                                    <a href="/productList">Cửa hàng</a>
+                                    <a th:href="@{/store}">Cửa hàng</a>
                                     <ul class="dropdown">
-                                        <li><a href="cart.html">Giỏ hàng</a></li>
-                                        <li><a href="checkout.html">Thanh toán</a></li>
+                                        <li><a th:href="@{/cart/list}">Giỏ hàng</a></li>
+                                        <li><a th:href="@{/order/list}">Thanh toán</a></li>
 
                                     </ul>
                                 </li>
-                                <li><a href="about.html">Giới thiệu</a></li>
-                                <li><a href="contact.html">Liên hệ</a></li>
-                                <li><a href="cart.html"><i class="icon-shopping-cart"></i> Giỏ hàng [0]</a></li>
+                                <li><a href="http://localhost:8080/store/about">Giới thiệu</a></li>
+                                <!--                                <li><a href="contact.html">Liên hệ</a></li>-->
+                                <li><a th:href="@{/cart/list}" id="carta">Giỏ hàng[0]</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" data-toggle="dropdown" href="#">
+                                        <img src="https://img.icons8.com/material/24/000000/administrator-male--v1.png"/>
+                                        Tài khoản
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                        <a th:href="@{/userInfo}" class="dropdown-item">
+                                            <img src="https://img.icons8.com/material/24/000000/administrator-male--v1.png"/>
+                                            Thông tin
+                                        </a>
+                                        <br>
+                                        <br>
+                                        <a th:href="@{/logout}" class="dropdown-item">
+                                            <img src="https://img.icons8.com/metro/26/000000/exit.png"/>
+                                            Đăng xuất
+                                        </a>
+                                    </div>
+                                </li>
+                                <!--                                <li><a href="cart.html" id="cart"><i class="icon-shopping-cart"></i> Giỏ hàng[0]</a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -32,14 +58,42 @@
         <aside id="colorlib-hero">
             <div class="flexslider">
                 <ul class="slides">
-                    <li style="background-image: url(client/images/bg-03.jpg);">
+                    <li style="background-image: url(/client/images/bg-03.jpg);">
                     </li>
-                    <li style="background-image: url(client/images/bg-01.jpg);">
+                    <li style="background-image: url(/client/images/bg-01.jpg);">
                     </li>
-                    <li style="background-image: url(client/images/bg-02.jpg);">
+                    <li style="background-image: url(/client/images/bg-02.jpg);">
                     </li>
                 </ul>
             </div>
         </aside>
         <!-- End header -->
 </nav>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function (){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/user-api",
+            async: false,
+            success: function (user) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/cart-api?userid='+user.id,
+                    async: false,
+                    success: function (cart){
+                        document.getElementById("carta").innerText = "Giỏ hàng["+cart.length+"]"
+                    }
+                })
+            }
+        })
+    })
+
+</script>
+
+
+</body>
+
+

@@ -12,4 +12,5 @@ public interface IUserService {
     UserEntity getUserById(Integer id);
     void updateUserById(Integer id, Object userData);
     void deleteUserById(Integer id);
+    UserEntity getIdByUserName(String username);
 }

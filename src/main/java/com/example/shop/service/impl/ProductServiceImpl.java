@@ -12,6 +12,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
@@ -108,5 +110,43 @@ public class ProductServiceImpl implements IProductService {
     public void deleteProductAndProductDetailsById(Integer id) {
         productRepository.deleteById(id);
         productDetailsRepository.deleteProductDetailsEntitiesByProductId(id);
+    }
+
+    @Override
+    public List<ProductResponse> getListBest() {
+        List<ProductResponse> productResponses = productRepository.getListBestClick()
+                .stream().map(data -> modelMapper.map(data, ProductResponse.class)).collect(Collectors.toList());
+        for (ProductResponse productResponse: productResponses){
+            try {
+                productResponse.setNameCategory(categoryRepository.getCategoryEntityById(productResponse.getCategoryId()).getName());
+            } catch (NullPointerException nullPointerException){
+                productResponse.setNameCategory("Danh mục Không tồn tại, id = " + productResponse.getCategoryId());
+            }
+
+        }
+        return productResponses;
+    }
+
+    @Override
+    public Page<ProductEntity> getListProduct(Pageable pageable) {
+        Page<ProductEntity> productEntities = productRepository.findAll(pageable);
+        return productEntities;
+    }
+
+    @Override
+    public List<ProductEntity> getListProductByCategoryId(Integer id) {
+        List<ProductEntity> productEntityList = productRepository.findAllByCategoryId(id);
+        return productEntityList;
+    }
+
+    @Override
+    public List<String> getImagesByProductId(Integer id) {
+        List<String> imagesList = productDetailsRepository.getImagesByProductId(id);
+        return imagesList;
+    }
+
+    @Override
+    public ProductDetailsEntity getProductDetailsByProductId(Integer id) {
+        return productDetailsRepository.getProductDetailsEntityById(id);
     }
 }

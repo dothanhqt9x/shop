@@ -131,7 +131,11 @@
     var url_string = window.location.href; //window.location.href
     var url = new URL(url_string);
     var page = url.searchParams.get("page");
-
+    if (page == null){
+        page = 0
+    } else {
+        page = parseInt(page)
+    }
     $(document).ready(function () {
         $("#left").click(function (){
             let pageLeft = page - 1

@@ -13,8 +13,7 @@ public class CartEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer quantly;
-
+    private Integer quantity;
 
     private Integer userId;
 

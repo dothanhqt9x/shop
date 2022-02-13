@@ -1,18 +1,19 @@
 package com.example.shop.model.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
 
-@Table(name = "ORDER")
+import javax.persistence.*;
+
+@Table(name = "ORDERED")
+@Entity
+@Data
 public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer quantly;
+    private Integer quantity;
 
     private Boolean status;
 

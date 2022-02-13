@@ -71,4 +71,10 @@ public class UserServiceImpl implements IUserService {
     public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public UserEntity getIdByUserName(String username) {
+        UserEntity userEntity = userRepository.findUserEntityByEmail(username);
+        return userEntity;
+    }
 }

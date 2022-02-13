@@ -1,7 +1,8 @@
 package com.example.shop.repository;
 
 import com.example.shop.model.entity.ProductEntity;
-import com.example.shop.model.response.ProductResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +44,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     ProductEntity getProductEntityById(Integer id);
 
     void deleteById(Integer id);
+
+    @Query(
+            value = "select * from product order by count_click desc limit 4",
+            nativeQuery = true
+    )
+    @Transactional
+    List<ProductEntity> getListBestClick();
+
+    Page<ProductEntity> findAll(Pageable pageable);
+
+    List<ProductEntity> findAllByCategoryId(Integer id);
 }

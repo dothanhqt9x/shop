@@ -10,12 +10,13 @@
 
 <h2>User Info Page</h2>
 <h3>Welcome : <span th:utext="${#request.userPrincipal.name}"></span></h3>
-<b>This is protected page!</b>
+<b>How are you</b>
 
 <br/><br/>
 
 <div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
 
+<button href="http://localhost:8080/homepage">Trang chủ</button>
 </body>
 
 </html>

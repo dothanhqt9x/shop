@@ -1,4 +1,4 @@
-package com.example.shop.controller;
+package com.example.shop.controller.client;
 
 import com.example.shop.service.IProductService;
 import org.springframework.stereotype.Controller;
@@ -7,18 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("")
-public class HomeController {
+@RequestMapping("/homepage")
+public class HomePage {
 
     private final IProductService iProductService;
 
-    public HomeController(IProductService iProductService) {
+    public HomePage(IProductService iProductService) {
         this.iProductService = iProductService;
     }
 
-    @GetMapping("productList")
-    public String productList(Model model){
-        model.addAttribute("product", iProductService.getList());
-        return "client/product/productlist";
+    @GetMapping("")
+    public String homePage(Model model){
+        model.addAttribute("productBest", iProductService.getListBest());
+        return "client/index";
     }
+
 }

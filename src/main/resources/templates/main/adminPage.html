@@ -19,4 +19,25 @@
 
 </body>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $.ajax({
+        type: 'get',
+        url: 'http://localhost:8080/user-api',
+        success: function (user) {
+            console.log(user)
+            if(user.roleId == 1){
+                window.onload = function (){
+                    window.location.href = "http://localhost:8080/admin-category/list"
+                }
+            }
+            if(user.roleId == 2){
+                window.onload = function (){
+                    window.location.href = "http://localhost:8080/homepage"
+                }
+            }
+        }
+    })
+</script>
+
 </html>

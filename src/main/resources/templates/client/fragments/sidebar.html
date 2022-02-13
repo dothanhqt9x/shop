@@ -5,49 +5,15 @@
             <div class="fancy-collapse-panel">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
+                        <div class="panel-heading" role="tab" id="headingOne" th:each="category: ${category}">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#menu1"
-                                   aria-expanded="true" aria-controls="collapseOne">Quần
-                                    Áo Nam
+                                   aria-expanded="true" aria-controls="collapseOne" th:text="${category.name}"
+                                    th:value="${category.id}">
                                 </a>
                             </h4>
                         </div>
-                        <div id="menu1" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                <ul>
-                                    <li><a href="#">Áo Sơ mi nam</a></li>
-                                    <li><a href="#">Áo thun nam</a></li>
-                                    <li><a href="#">Áo Khoác nam</a></li>
-                                    <li><a href="#">Áo vest Nam</a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#menu2"
-                                   aria-expanded="true" aria-controls="collapseOne">Quần
-                                    Áo Nữ
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="menu2" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                <ul>
-                                    <li><a href="#">Áo Sơ mi Nữ</a></li>
-                                    <li><a href="#">Áo thun Nữ</a></li>
-                                    <li><a href="#">Áo Khoác Nữ</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
         </div>
@@ -93,3 +59,9 @@
 
     </div>
 </div>
+
+<script th:inline="javascript">
+    var category = [[${category}]]
+    var a = $(".panel-title").children("#1")
+    console.log(a)
+</script>
